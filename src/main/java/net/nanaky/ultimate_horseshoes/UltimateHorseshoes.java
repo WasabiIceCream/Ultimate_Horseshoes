@@ -5,6 +5,7 @@ import static net.nanaky.ultimate_horseshoes.items.ModItems.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
@@ -12,8 +13,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.ints.UniformGenerator;
 import net.nanaky.ultimate_horseshoes.compat.LegacyMigration;
 import net.nanaky.ultimate_horseshoes.config.ModConfigs;
 import net.nanaky.ultimate_horseshoes.items.ModItems;
@@ -43,7 +44,7 @@ public class UltimateHorseshoes implements ModInitializer {
             if (source.isBuiltin()) {
                 if (BuiltInLootTables.NETHER_BRIDGE.equals(id)) {
                     tableBuilder.withPool(LootPool.lootPool()
-                            .setRolls(UniformGenerator.between(1.0F, 2.0F))
+                            .setRolls(Holder.direct(new ConstantValue(1)))
                             .add(LootItem.lootTableItem(GOLDEN_HORSESHOES_ITEM).setWeight(4)));
                 }
                 if (BuiltInLootTables.BASTION_BRIDGE.equals(id)
@@ -51,20 +52,20 @@ public class UltimateHorseshoes implements ModInitializer {
                         || BuiltInLootTables.BASTION_OTHER.equals(id)
                         || BuiltInLootTables.BASTION_TREASURE.equals(id)) {
                     tableBuilder.withPool(LootPool.lootPool()
-                            .setRolls(UniformGenerator.between(2.0F, 3.0F))
+                            .setRolls(Holder.direct(new ConstantValue(2)))
                             .add(LootItem.lootTableItem(GOLDEN_HORSESHOES_ITEM).setWeight(8)));
                 }
                 if (BuiltInLootTables.VILLAGE_ARMORER.equals(id)
                         || BuiltInLootTables.VILLAGE_WEAPONSMITH.equals(id)
                         || BuiltInLootTables.VILLAGE_TOOLSMITH.equals(id)) {
                     tableBuilder.withPool(LootPool.lootPool()
-                            .setRolls(UniformGenerator.between(1.0F, 2.0F))
+                            .setRolls(Holder.direct(new ConstantValue(1)))
                             .add(LootItem.lootTableItem(COPPER_HORSESHOES_ITEM).setWeight(8))
                             .add(LootItem.lootTableItem(IRON_HORSESHOES_ITEM).setWeight(4)));
                 }
                 if (BuiltInLootTables.DESERT_PYRAMID.equals(id)) {
                     tableBuilder.withPool(LootPool.lootPool()
-                            .setRolls(UniformGenerator.between(1.0F, 2.0F))
+                            .setRolls(Holder.direct(new ConstantValue(1)))
                             .add(LootItem.lootTableItem(COPPER_HORSESHOES_ITEM).setWeight(8))
                             .add(LootItem.lootTableItem(IRON_HORSESHOES_ITEM).setWeight(4))
                             .add(LootItem.lootTableItem(DIAMOND_HORSESHOES_ITEM).setWeight(1)));
@@ -72,33 +73,25 @@ public class UltimateHorseshoes implements ModInitializer {
                 }
                 if (BuiltInLootTables.TRIAL_CHAMBERS_REWARD_COMMON.equals(id)) {
                     tableBuilder.withPool(LootPool.lootPool()
-                            .setRolls(ConstantValue.exactly(1.0F))
-                            .add(LootItem.lootTableItem(COPPER_HORSESHOES_ITEM).setWeight(3)));
+                            .setRolls(Holder.direct(new ConstantValue(1)))
+                            .add(LootItem.lootTableItem(COPPER_HORSESHOES_ITEM).setWeight(2)));
                 }
                 if (BuiltInLootTables.SIMPLE_DUNGEON.equals(id)) {
                     tableBuilder.withPool(LootPool.lootPool()
-                            .setRolls(ConstantValue.exactly(1.0F))
-                            .add(LootItem.lootTableItem(COPPER_HORSESHOES_ITEM).setWeight(4))
-                            .add(LootItem.lootTableItem(IRON_HORSESHOES_ITEM).setWeight(4))
-                            .add(LootItem.lootTableItem(DIAMOND_HORSESHOES_ITEM).setWeight(1)));
-                }
-                if (BuiltInLootTables.END_CITY_TREASURE.equals(id)) {
-                    tableBuilder.withPool(LootPool.lootPool()
-                            .setRolls(UniformGenerator.between(1.0F, 2.0F))
-                            .add(LootItem.lootTableItem(IRON_HORSESHOES_ITEM))
-                            .add(LootItem.lootTableItem(GOLDEN_HORSESHOES_ITEM))
-                            .add(LootItem.lootTableItem(DIAMOND_HORSESHOES_ITEM)));
+                            .setRolls(Holder.direct(new ConstantValue(1)))
+                            .add(LootItem.lootTableItem(COPPER_HORSESHOES_ITEM).setWeight(2))
+                            .add(LootItem.lootTableItem(IRON_HORSESHOES_ITEM).setWeight(2)));
                 }
                 if (BuiltInLootTables.ANCIENT_CITY.equals(id)) {
                     tableBuilder.withPool(LootPool.lootPool()
-                            .setRolls(ConstantValue.exactly(1.0F))
+                            .setRolls(Holder.direct(new ConstantValue(1)))
                             .add(LootItem.lootTableItem(DIAMOND_HORSESHOES_ITEM).setWeight(8)));
                 }
                 if (BuiltInLootTables.WOODLAND_MANSION.equals(id)) {
                     tableBuilder.withPool(LootPool.lootPool()
-                            .setRolls(ConstantValue.exactly(1.0F))
-                            .add(LootItem.lootTableItem(IRON_HORSESHOES_ITEM).setWeight(8))
-                            .add(LootItem.lootTableItem(DIAMOND_HORSESHOES_ITEM).setWeight(4)));
+                            .setRolls(Holder.direct(new ConstantValue(1)))
+                            .add(LootItem.lootTableItem(IRON_HORSESHOES_ITEM).setWeight(4))
+                            .add(LootItem.lootTableItem(DIAMOND_HORSESHOES_ITEM).setWeight(1)));
                 }
             }
         });

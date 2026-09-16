@@ -52,8 +52,7 @@ public class HorseShoesLayer<S extends EquineRenderState>
                 LivingEntityRenderer.getOverlayCoords(renderState, 0.0F),
                 -1,
                 null,
-                renderState.outlineColor,
-                null
+                renderState.outlineColor
         );
     }
 }
