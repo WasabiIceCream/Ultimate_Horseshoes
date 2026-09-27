@@ -29,8 +29,10 @@ travel worth investing in: craftable, enchantable horseshoes.
   state covers it through `hurtAndBreak` and `forEachModifier`): also gets a `repairable`
   material, without which broken horse armour could never be repaired.
 - **Repair materials** (horseshoes and horse armour) are vanilla's armour repair tags
-  (`#minecraft:repairs_<tier>_armor`, through the bootstrap registration lookup like vanilla
-  armour), not upstream's single items, so the Iron Forge Gate's `repairs_iron_armor` ->
+  (`#minecraft:repairs_<tier>_armor`: the horseshoes through the bootstrap registration lookup
+  like vanilla armour; horse armour through `BuiltInRegistries.ITEM.getOrThrow(tag)`, since
+  `bindComponents` runs after the registry freezes and a bootstrap lookup there throws
+  "Registry is already frozen", which failed the first `gameoverse.4` boot), not upstream's single items, so the Iron Forge Gate's `repairs_iron_armor` ->
   Iron Sheet applies (the user noticed iron horseshoes repairing with ingots).
 
 - **Loot**: upstream added a pool of only horseshoe entries (1-3 rolls, no empty entry) to

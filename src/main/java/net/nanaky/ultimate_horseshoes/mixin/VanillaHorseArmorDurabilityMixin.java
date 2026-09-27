@@ -43,8 +43,10 @@ public class VanillaHorseArmorDurabilityMixin {
             .set(DataComponents.MAX_DAMAGE, maxDamage)
             .set(DataComponents.DAMAGE, 0)
             .set(DataComponents.ENCHANTABLE, new net.minecraft.world.item.enchantment.Enchantable(enchantability))
+            // The registry is frozen here; vanilla armour already created these tags' holder
+            // sets during bootstrap, so this returns the existing one (a bootstrap lookup throws)
             .set(DataComponents.REPAIRABLE, new net.minecraft.world.item.enchantment.Repairable(
-                net.minecraft.core.registries.BuiltInRegistries.acquireBootstrapRegistrationLookup(net.minecraft.core.registries.BuiltInRegistries.ITEM).getOrThrow(repairTag)))
+                net.minecraft.core.registries.BuiltInRegistries.ITEM.getOrThrow(repairTag)))
             .build();
     }
 }
