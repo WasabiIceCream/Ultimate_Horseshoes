@@ -28,6 +28,10 @@ travel worth investing in: craftable, enchantable horseshoes.
 - **Horse armour** (upstream's durability, kept on at the user's request since SSO's Broken
   state covers it through `hurtAndBreak` and `forEachModifier`): also gets a `repairable`
   material, without which broken horse armour could never be repaired.
+- **Repair materials** (horseshoes and horse armour) are vanilla's armour repair tags
+  (`#minecraft:repairs_<tier>_armor`, through the bootstrap registration lookup like vanilla
+  armour), not upstream's single items, so the Iron Forge Gate's `repairs_iron_armor` ->
+  Iron Sheet applies (the user noticed iron horseshoes repairing with ingots).
 
 - **Loot**: upstream added a pool of only horseshoe entries (1-3 rolls, no empty entry) to
   nether fortress, bastion, End City, Ancient City, mansion, desert pyramid, dungeon, trial
@@ -46,7 +50,7 @@ travel worth investing in: craftable, enchantable horseshoes.
 Config left at upstream defaults (`vanilla_armor_durability` and `slot_lock` on: Shears to
 remove horseshoes, the user's choice).
 
-Version `26.1-gameoverse.3`. Build: `./gradlew build`.
+Version `26.1-gameoverse.4`. Build: `./gradlew build`.
 
 ## Routine checks
 

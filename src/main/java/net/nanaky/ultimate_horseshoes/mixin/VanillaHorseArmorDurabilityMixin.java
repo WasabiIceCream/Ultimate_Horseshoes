@@ -25,17 +25,17 @@ public class VanillaHorseArmorDurabilityMixin {
         Holder.Reference<?> self = (Holder.Reference<?>) (Object) this;
         if (!(self.value() instanceof Item item)) return;
 
-        // Gameoverse: also enchantable (the armour material's own value) and repairable with
-        // its material, so it works with the enchanting rework and can be fixed once broken
+        // Gameoverse: also enchantable (the armour material's own value) and repairable through
+        // its armour repair tag, so it works with the enchanting rework and can be fixed once broken
         int maxDamage = 0;
         int enchantability;
-        Item repairItem;
-        if      (item == Items.IRON_HORSE_ARMOR)      { maxDamage = 195; enchantability = 9;  repairItem = Items.IRON_INGOT; }
-        else if (item == Items.GOLDEN_HORSE_ARMOR)    { maxDamage = 91;  enchantability = 25; repairItem = Items.GOLD_INGOT; }
-        else if (item == Items.DIAMOND_HORSE_ARMOR)   { maxDamage = 429; enchantability = 10; repairItem = Items.DIAMOND; }
-        else if (item == Items.NETHERITE_HORSE_ARMOR) { maxDamage = 481; enchantability = 15; repairItem = Items.NETHERITE_INGOT; }
-        else if (item == Items.LEATHER_HORSE_ARMOR)   { maxDamage = 110; enchantability = 15; repairItem = Items.LEATHER; }
-        else if (item == Items.COPPER_HORSE_ARMOR)    { maxDamage = 143; enchantability = 8;  repairItem = Items.COPPER_INGOT; }
+        net.minecraft.tags.TagKey<Item> repairTag;
+        if      (item == Items.IRON_HORSE_ARMOR)      { maxDamage = 195; enchantability = 9;  repairTag = net.minecraft.tags.ItemTags.REPAIRS_IRON_ARMOR; }
+        else if (item == Items.GOLDEN_HORSE_ARMOR)    { maxDamage = 91;  enchantability = 25; repairTag = net.minecraft.tags.ItemTags.REPAIRS_GOLD_ARMOR; }
+        else if (item == Items.DIAMOND_HORSE_ARMOR)   { maxDamage = 429; enchantability = 10; repairTag = net.minecraft.tags.ItemTags.REPAIRS_DIAMOND_ARMOR; }
+        else if (item == Items.NETHERITE_HORSE_ARMOR) { maxDamage = 481; enchantability = 15; repairTag = net.minecraft.tags.ItemTags.REPAIRS_NETHERITE_ARMOR; }
+        else if (item == Items.LEATHER_HORSE_ARMOR)   { maxDamage = 110; enchantability = 15; repairTag = net.minecraft.tags.ItemTags.REPAIRS_LEATHER_ARMOR; }
+        else if (item == Items.COPPER_HORSE_ARMOR)    { maxDamage = 143; enchantability = 8;  repairTag = net.minecraft.tags.ItemTags.REPAIRS_COPPER_ARMOR; }
         else return;
 
         this.components = DataComponentMap.builder()
@@ -44,7 +44,7 @@ public class VanillaHorseArmorDurabilityMixin {
             .set(DataComponents.DAMAGE, 0)
             .set(DataComponents.ENCHANTABLE, new net.minecraft.world.item.enchantment.Enchantable(enchantability))
             .set(DataComponents.REPAIRABLE, new net.minecraft.world.item.enchantment.Repairable(
-                net.minecraft.core.HolderSet.direct(repairItem.builtInRegistryHolder())))
+                net.minecraft.core.registries.BuiltInRegistries.acquireBootstrapRegistrationLookup(net.minecraft.core.registries.BuiltInRegistries.ITEM).getOrThrow(repairTag)))
             .build();
     }
 }
