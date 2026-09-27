@@ -57,6 +57,15 @@ public abstract class AbstractHorseEntityMixin extends Animal implements IHorses
         return horseshoes$container.getItem(0).getItem() instanceof HorseshoesItem;
     }
 
+    // Gameoverse: horseshoes at 0 durability stay in the slot (Simple Smithing Overhaul marks
+    // them Broken) and count as absent until repaired: no bonuses, no enchantment effects
+    @Unique
+    private boolean horseshoes$activeHorseshoes() {
+        if (!horseshoes$hasHorseshoes()) return false;
+        ItemStack shoes = horseshoes$container.getItem(0);
+        return !shoes.isDamageableItem() || shoes.getDamageValue() < shoes.getMaxDamage();
+    }
+
     @Unique
     private float horseshoes$distanceAccumulator = 0f;
 
@@ -72,7 +81,7 @@ public abstract class AbstractHorseEntityMixin extends Animal implements IHorses
     @Inject(method = "playStepSound", at = @At("HEAD"))
     private void horseshoes$soulSpeedDurability(BlockPos pos, net.minecraft.world.level.block.state.BlockState state, CallbackInfo ci) {
         if (this.level().isClientSide()) return;
-        if (!horseshoes$hasHorseshoes()) return;
+        if (!horseshoes$activeHorseshoes()) return;
 
         ItemStack shoes = horseshoes$container.getItem(0);
         int soulSpeedLevel = net.minecraft.world.item.enchantment.EnchantmentHelper.getItemEnchantmentLevel(
@@ -99,23 +108,15 @@ public abstract class AbstractHorseEntityMixin extends Animal implements IHorses
         ItemStack shoes = horseshoes$container.getItem(0);
         if (shoes.isEmpty()) return;
 
-        if (net.minecraft.world.item.enchantment.EnchantmentHelper.getItemEnchantmentLevel(
-                this.level().registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.ENCHANTMENT)
-                    .getOrThrow(net.minecraft.world.item.enchantment.Enchantments.UNBREAKING),
-                shoes) > 0) {
-            int unbreakingLevel = net.minecraft.world.item.enchantment.EnchantmentHelper.getItemEnchantmentLevel(
-                this.level().registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.ENCHANTMENT)
-                    .getOrThrow(net.minecraft.world.item.enchantment.Enchantments.UNBREAKING),
-                shoes);
-            if (this.random.nextInt(unbreakingLevel + 1) > 0) return;
-        }
-
-        shoes.setDamageValue(shoes.getDamageValue() + amount);
-
-        if (shoes.getDamageValue() >= shoes.getMaxDamage()) {
+        if (!(this.level() instanceof ServerLevel serverLevel)) return;
+        // Gameoverse: vanilla's damage path, so Unbreaking applies as the enchanting rework
+        // tunes it and Simple Smithing Overhaul keeps the item (Broken) instead of deleting it
+        boolean wasActive = horseshoes$activeHorseshoes();
+        shoes.hurtAndBreak(amount, serverLevel, (net.minecraft.server.level.ServerPlayer) null, item -> {});
+        if (wasActive && !horseshoes$activeHorseshoes()) {
             this.playSound(net.minecraft.sounds.SoundEvents.ITEM_BREAK.value(), 0.8F, 1.0F);
-            horseshoes$container.setItem(0, ItemStack.EMPTY);
         }
+        horseshoes$container.setChanged();
     }
 
     @Unique
@@ -129,7 +130,7 @@ public abstract class AbstractHorseEntityMixin extends Animal implements IHorses
         jump.removeModifier(UltimateHorseshoes.HORSESHOES_JUMP_ID);
         armor.removeModifier(UltimateHorseshoes.HORSESHOES_ARMOR_ID);
 
-        if (horseshoes$hasHorseshoes()) {
+        if (horseshoes$activeHorseshoes()) {
             ItemStack stack = horseshoes$container.getItem(0);
             HorseshoesItem item = (HorseshoesItem) stack.getItem();
 
@@ -155,7 +156,7 @@ public abstract class AbstractHorseEntityMixin extends Animal implements IHorses
     private void horseshoes$tick(CallbackInfo ci) {
         if (this.level().isClientSide()) return;
 
-        boolean hasNow = horseshoes$hasHorseshoes();
+        boolean hasNow = horseshoes$activeHorseshoes();
         if (hasNow != horseshoes$hadHorseshoes) {
             if (hasNow && this.tickCount > 20) {
                 this.playSound(SoundEvents.HORSE_ARMOR.value(), 0.5F, 1.0F);
@@ -182,12 +183,8 @@ public abstract class AbstractHorseEntityMixin extends Animal implements IHorses
                 horseshoes$lastZ = this.getZ();
             }
 
-            int unbreakingLevel = net.minecraft.world.item.enchantment.EnchantmentHelper.getItemEnchantmentLevel(
-                this.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT)
-                    .getOrThrow(net.minecraft.world.item.enchantment.Enchantments.UNBREAKING),
-                horseshoes$container.getItem(0));
-            int unbreakingBonus = unbreakingLevel > 0 ? (2 * unbreakingLevel - 1) : 0;
-            float threshold = ModConfigs.HORSESHOES_DURABILITY_THRESHOLD + unbreakingBonus;
+            // Gameoverse: Unbreaking is applied once, by vanilla's damage path in damageHorseshoe
+            float threshold = ModConfigs.HORSESHOES_DURABILITY_THRESHOLD;
 
             if (horseshoes$distanceAccumulator >= threshold) {
                 horseshoes$distanceAccumulator -= threshold;

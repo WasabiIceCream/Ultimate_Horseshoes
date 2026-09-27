@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " X ",
+    "X X",
+    "X X"
+  ],
+  "key": {
+    "X": "create:iron_sheet"
+  },
+  "result": {
+    "id": "ultimate_horseshoes:iron_horseshoes",
+    "count": 1
+  }
+}

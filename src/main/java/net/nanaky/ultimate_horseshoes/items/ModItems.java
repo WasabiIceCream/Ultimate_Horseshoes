@@ -32,6 +32,7 @@ public class ModItems {
             (float) ModConfigs.COPPER_HORSESHOES_ARMOR,
             new Item.Properties().durability(143)
                 .component(DataComponents.REPAIRABLE, repairable("copper_ingot"))
+                .enchantable(8)
                 .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MOD_ID, "copper_horseshoes"))),
             Identifier.fromNamespaceAndPath(MOD_ID, "textures/entity/horse/armor/copper_horseshoes.png")));
 
@@ -42,6 +43,7 @@ public class ModItems {
             (float) ModConfigs.IRON_HORSESHOES_ARMOR,
             new Item.Properties().durability(195)
                 .component(DataComponents.REPAIRABLE, repairable("iron_ingot"))
+                .enchantable(9)
                 .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MOD_ID, "iron_horseshoes"))),
             Identifier.fromNamespaceAndPath(MOD_ID, "textures/entity/horse/armor/iron_horseshoes.png")));
 
@@ -52,6 +54,7 @@ public class ModItems {
             (float) ModConfigs.GOLDEN_HORSESHOES_ARMOR,
             new Item.Properties().durability(91)
                 .component(DataComponents.REPAIRABLE, repairable("gold_ingot"))
+                .enchantable(25)
                 .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MOD_ID, "golden_horseshoes"))),
             Identifier.fromNamespaceAndPath(MOD_ID, "textures/entity/horse/armor/golden_horseshoes.png")));
 
@@ -62,6 +65,7 @@ public class ModItems {
             (float) ModConfigs.DIAMOND_HORSESHOES_ARMOR,
             new Item.Properties().durability(429)
                 .component(DataComponents.REPAIRABLE, repairable("diamond"))
+                .enchantable(10)
                 .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MOD_ID, "diamond_horseshoes"))),
             Identifier.fromNamespaceAndPath(MOD_ID, "textures/entity/horse/armor/diamond_horseshoes.png")));
 
@@ -72,6 +76,7 @@ public class ModItems {
             (float) ModConfigs.NETHERITE_HORSESHOES_ARMOR,
             new Item.Properties().durability(481)
                 .component(DataComponents.REPAIRABLE, repairable("netherite_ingot"))
+                .enchantable(15)
                 .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MOD_ID, "netherite_horseshoes"))),
             Identifier.fromNamespaceAndPath(MOD_ID, "textures/entity/horse/armor/netherite_horseshoes.png")));
 
