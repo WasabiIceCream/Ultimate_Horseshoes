@@ -29,10 +29,16 @@ travel worth investing in: craftable, enchantable horseshoes.
   state covers it through `hurtAndBreak` and `forEachModifier`): also gets a `repairable`
   material, without which broken horse armour could never be repaired.
 
+- **Loot**: upstream added a pool of only horseshoe entries (1-3 rolls, no empty entry) to
+  nether fortress, bastion, End City, Ancient City, mansion, desert pyramid, dungeon, trial
+  chamber and village smith chests, so every one of those chests had horseshoes (the user
+  remembered the flood from an earlier try). Now each pool is one roll at 5% (user's choice),
+  same tier weights.
+
 Config left at upstream defaults (`vanilla_armor_durability` and `slot_lock` on: Shears to
 remove horseshoes, the user's choice).
 
-Version `26.1-gameoverse.1`. Build: `./gradlew build`.
+Version `26.1-gameoverse.2`. Build: `./gradlew build`.
 
 ## Routine checks
 
