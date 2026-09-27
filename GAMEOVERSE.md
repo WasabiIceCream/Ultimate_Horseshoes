@@ -35,10 +35,18 @@ travel worth investing in: craftable, enchantable horseshoes.
   remembered the flood from an earlier try). Now each pool is one roll at 5% (user's choice),
   same tier weights.
 
+- **Horseman overlap**: both mods added their slot to the horse menu at (8,54), Horseman's
+  Lead slot and our horseshoe slot on top of each other, so horseshoes couldn't be placed
+  (found in the 2026-09-27 play test). The horseshoe slot is now a named `HorseshoeSlot` at
+  (-21,54), outside the panel's left edge on a small backing panel drawn by
+  `AbstractHorseScreenMixin`. Shift-click only handles horseshoe moves itself and passes the
+  rest to `AbstractMountInventoryMenu.quickMoveStack` (which Horseman also changes); upstream
+  replaced all of it and assumed the horseshoe slot was the last one.
+
 Config left at upstream defaults (`vanilla_armor_durability` and `slot_lock` on: Shears to
 remove horseshoes, the user's choice).
 
-Version `26.1-gameoverse.2`. Build: `./gradlew build`.
+Version `26.1-gameoverse.3`. Build: `./gradlew build`.
 
 ## Routine checks
 

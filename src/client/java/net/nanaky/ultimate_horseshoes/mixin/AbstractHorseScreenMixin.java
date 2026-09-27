@@ -44,8 +44,16 @@ public abstract class AbstractHorseScreenMixin<M extends AbstractContainerMenu>
         if (!horse.getType().builtInRegistryHolder().is(UltimateHorseshoes.ALLOWED)) return;
         if (!horse.canUseSlot(EquipmentSlot.FEET)) return;
 
-        int xo = this.leftPos + 7;
-        int yo = this.topPos + 53;
+        // Gameoverse: the slot sits outside the panel's left edge (see HorseshoeSlot), on a
+        // small backing panel joined to the main one
+        int xo = this.leftPos + net.nanaky.ultimate_horseshoes.HorseshoeSlot.X - 1;
+        int yo = this.topPos + net.nanaky.ultimate_horseshoes.HorseshoeSlot.Y - 1;
+        int px = xo - 4, py = yo - 4, pw = this.leftPos + 3 - px, ph = 26;
+        graphics.fill(px, py, px + pw, py + ph, 0xFF000000);
+        graphics.fill(px + 1, py + 1, px + pw, py + ph - 1, 0xFFC6C6C6);
+        graphics.fill(px + 1, py + 1, px + pw, py + 2, 0xFFFFFFFF);
+        graphics.fill(px + 1, py + 1, px + 2, py + ph - 1, 0xFFFFFFFF);
+        graphics.fill(px + 2, py + ph - 2, px + pw, py + ph - 1, 0xFF555555);
 
         graphics.blit(
             RenderPipelines.GUI_TEXTURED,
